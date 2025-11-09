@@ -9,13 +9,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
+
     register: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}`,
+        url: USERS_URL,
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
 
     logout: builder.mutation({
@@ -23,14 +26,18 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/logout`,
         method: "POST",
       }),
+      invalidatesTags: ["User"],
     }),
+
     profile: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/profile`,
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
+
     getUsers: builder.query({
       query: () => ({
         url: USERS_URL,
@@ -38,18 +45,25 @@ export const userApiSlice = apiSlice.injectEndpoints({
       providesTags: ["User"],
       keepUnusedDataFor: 5,
     }),
+
     deleteUser: builder.mutation({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["User"],
     }),
+
     getUserDetails: builder.query({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
       }),
+      providesTags: (result, error, id) => [
+        { type: "User", id },
+      ],
       keepUnusedDataFor: 5,
     }),
+
     updateUser: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/${data.userId}`,
